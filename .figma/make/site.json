@@ -1,0 +1,10 @@
+{
+  "description": "Experience KALCHAKRA, a premium landing page for a futuristic multinational racing championship showcasing diverse eras of transportation and elite drivers.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

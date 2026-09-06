@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+/* ── Theme variables ─────────────────────────────────── */
+:root {
+  --bg:        #080812;
+  --bg2:       #0a0a18;
+  --bg3:       #0e0e22;
+  --surface:   rgba(255,255,255,0.026);
+  --surface-h: rgba(255,255,255,0.048);
+  --border:    rgba(255,255,255,0.08);
+  --border-s:  rgba(255,255,255,0.16);
+  --t1:        #f0eff5;
+  --t2:        rgba(240,239,245,0.50);
+  --t3:        rgba(240,239,245,0.28);
+  --accent:    #00c8ff;
+  --accent-h:  #33d4ff;
+  --nav-bg:    rgba(8,8,18,0.94);
+  --modal-bg:  #0c0c1c;
+  --surface-h: rgba(255,255,255,0.048);
+}
+
+[data-theme="light"] {
+  --bg:        #f7f5ef;
+  --bg2:       #edebe5;
+  --bg3:       #e3e0d8;
+  --surface:   rgba(0,0,0,0.045);
+  --surface-h: rgba(0,0,0,0.075);
+  --border:    rgba(0,0,0,0.09);
+  --border-s:  rgba(0,0,0,0.18);
+  --t1:        #0f0e16;
+  --t2:        rgba(15,14,22,0.55);
+  --t3:        rgba(15,14,22,0.34);
+  --accent:    #0094be;
+  --accent-h:  #00aed8;
+  --nav-bg:    rgba(247,245,239,0.94);
+  --modal-bg:  #f0ede6;
+  --surface-h: rgba(0,0,0,0.075);
+}
+
+/* ── Base ────────────────────────────────────────────── */
+*,*::before,*::after { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--t1);
+  font-family: Inter, sans-serif;
+  transition: background 0.45s ease, color 0.35s ease;
+}
+* { scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; }
+
+/* ── Typography ──────────────────────────────────────── */
+.k-display { font-family: 'Barlow Condensed', sans-serif; }
+.k-mono    { font-family: 'JetBrains Mono', monospace; }
+
+/* ── Grid bg ─────────────────────────────────────────── */
+.k-grid-bg {
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridDrift 14s linear infinite;
+}
+
+/* ── Buttons ─────────────────────────────────────────── */
+.k-btn-primary {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: var(--accent); color: #000;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+  font-size: 1rem; letter-spacing: .16em; text-transform: uppercase;
+  padding: .875rem 2.25rem;
+  clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  transition: all .22s ease; cursor: pointer; border: none; white-space: nowrap;
+}
+.k-btn-primary:hover {
+  background: var(--accent-h); transform: scale(1.04);
+  box-shadow: 0 0 32px rgba(0,200,255,.4);
+}
+
+.k-btn-outline {
+  display: inline-flex; align-items: center; gap: .5rem;
+  border: 1px solid var(--border-s); color: var(--t1);
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+  font-size: 1rem; letter-spacing: .16em; text-transform: uppercase;
+  padding: .875rem 2.25rem;
+  clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  transition: all .22s ease; cursor: pointer; background: transparent; white-space: nowrap;
+}
+.k-btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Team card ───────────────────────────────────────── */
+.k-team-card {
+  background: var(--surface); border: 1px solid var(--border);
+  transition: all .28s ease; overflow: hidden; position: relative;
+}
+
+/* ── Intro animation ─────────────────────────────────── */
+@keyframes letterReveal {
+  from { opacity: 0; transform: translateY(22px) skewX(-4deg); }
+  to   { opacity: 1; transform: translateY(0) skewX(0); }
+}
+@keyframes lightSweep {
+  0%   { left: -28%; opacity: 0; }
+  20%  { opacity: .7; }
+  80%  { opacity: .6; }
+  100% { left: 118%; opacity: 0; }
+}
+@keyframes introExit {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes linePulse {
+  from { opacity: 0; transform: scaleX(0); }
+  50%  { opacity: 1; }
+  to   { opacity: .25; transform: scaleX(1); }
+}
+@keyframes subtitleIn {
+  from { opacity: 0; letter-spacing: .5em; }
+  to   { opacity: .55; letter-spacing: .38em; }
+}
+
+.intro-overlay {
+  position: fixed; inset: 0; z-index: 900;
+  background: #02020c;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.intro-overlay.exiting {
+  animation: introExit .65s ease forwards;
+  pointer-events: none;
+}
+.intro-letter {
+  display: inline-block;
+  animation: letterReveal .44s cubic-bezier(.22,1,.36,1) forwards;
+  opacity: 0;
+}
+.intro-sweep {
+  position: absolute; top: 0; height: 100%; width: 20%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.13), rgba(0,200,255,.07), transparent);
+  animation: lightSweep 1s ease forwards;
+  opacity: 0; pointer-events: none;
+}
+.intro-line {
+  position: absolute; height: 1px; left: 0; right: 0;
+  background: linear-gradient(90deg, transparent, rgba(0,200,255,.38), transparent);
+  animation: linePulse .9s ease forwards;
+  transform-origin: left;
+}
+
+@keyframes subtitleIn {
+  from { opacity: 0; letter-spacing: .5em; }
+  to   { opacity: .55; letter-spacing: .38em; }
+}
+
+/* ── Scroll / UI animations ──────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes gridDrift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 60px 60px; }
+}
+@keyframes dotBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .22; }
+}
+@keyframes hudPulse {
+  0%, 90%, 100% { opacity: 1; }
+  93% { opacity: .4; }
+  96% { opacity: .8; }
+}
+
+.dot-blink   { animation: dotBlink 1.1s ease-in-out infinite; }
+.hud-flicker { animation: hudPulse 5s ease-in-out infinite; }
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 900px) {
+  .k-nav-links   { display: none !important; }
+  .k-hamburger   { display: flex !important; }
+  .k-grid-2col   { grid-template-columns: 1fr !important; }
+  .k-grid-3col   { grid-template-columns: repeat(2,1fr) !important; }
+  .k-hide-tablet { display: none !important; }
+}
+@media (max-width: 600px) {
+  .k-grid-3col   { grid-template-columns: 1fr !important; }
+  .k-grid-2col   { grid-template-columns: 1fr !important; }
+  .k-hide-mobile { display: none !important; }
+  .k-standings-row { grid-template-columns: 44px 1fr 72px !important; }
+}
